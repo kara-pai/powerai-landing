@@ -161,29 +161,32 @@
         display: inline-block;
         opacity: 0;
         position: absolute;
-        left: 0;
-        right: 0;
-        transition: none;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
     }
 
     .rotating-word.active {
         opacity: 1;
-        animation: text-fade-in 0.6s ease-out;
+        position: relative;
+        left: auto;
+        transform: none;
+        animation: text-fade-in 0.5s ease-out forwards;
     }
 
     .rotating-word.exiting {
-        opacity: 0;
-        animation: text-fade-out 0.4s ease-in;
+        position: absolute;
+        animation: text-fade-out 0.5s ease-in forwards;
     }
 
     @keyframes text-fade-in {
-        0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+        0% { opacity: 0; transform: translateY(15px); filter: blur(6px); }
         100% { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
 
     @keyframes text-fade-out {
-        0% { opacity: 1; transform: translateY(0); filter: blur(0); }
-        100% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
+        0% { opacity: 1; transform: translateX(-50%) translateY(0); filter: blur(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-15px); filter: blur(6px); }
     }
 
     /* ===== MOUSE FOLLOW LIGHT ===== */
@@ -660,41 +663,33 @@ if (cardGrid) {
 const words = document.querySelectorAll('.rotating-word');
 let currentIndex = 0;
 
-// Measure the widest word and set container width
+// Initialize — first word is active, rest are hidden
 const rotatingContainer = document.getElementById('rotatingText');
-let maxWidth = 0;
-words.forEach(word => {
-    word.style.position = 'relative';
-    word.style.opacity = '1';
-    const w = word.offsetWidth;
-    if (w > maxWidth) maxWidth = w;
-    word.style.position = 'absolute';
-    word.style.opacity = '0';
+words.forEach((word, i) => {
+    if (i !== 0) {
+        word.style.opacity = '0';
+    }
 });
-words[0].style.opacity = '1';
-words[0].style.position = 'relative';
 rotatingContainer.style.display = 'inline-block';
-rotatingContainer.style.minWidth = maxWidth + 'px';
 
 setInterval(() => {
     const current = words[currentIndex];
     const nextIndex = (currentIndex + 1) % words.length;
     const next = words[nextIndex];
 
-    // Exit current
+    // Exit current — goes absolute immediately so it doesn't take up space
     current.classList.remove('active');
     current.classList.add('exiting');
 
+    // Wait for exit to fully complete, then show next
     setTimeout(() => {
         current.classList.remove('exiting');
-        current.style.position = 'absolute';
+        current.style.opacity = '0';
 
         // Enter next
-        next.style.position = 'relative';
         next.classList.add('active');
-
         currentIndex = nextIndex;
-    }, 400);
+    }, 500);
 }, 5000);
 </script>
 
