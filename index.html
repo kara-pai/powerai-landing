@@ -94,7 +94,7 @@
 
     /* Grain noise overlay */
     .grain-overlay {
-        position: fixed;
+        position: absolute;
         inset: 0;
         pointer-events: none;
         z-index: 1;
@@ -104,13 +104,12 @@
         background-size: 256px 256px;
     }
 
-    /* Marble canvas */
+    /* Marble canvas — covers full page */
     #marbleCanvas {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
         pointer-events: none;
         z-index: 0;
     }
@@ -393,16 +392,16 @@
 </div>
 
 <script>
-// ===== MARBLE VEIN LINES WITH FLOWING LIGHT =====
+// ===== MARBLE VEIN LINES WITH TRAVELING DOT LIGHTS =====
 const canvas = document.getElementById('marbleCanvas');
 const ctx = canvas.getContext('2d');
 
 let W, H;
 
-function resizeCanvas() {
+function setCanvasSize() {
     W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    generateVeins();
+    H = canvas.height = document.documentElement.scrollHeight;
+    canvas.style.height = H + 'px';
 }
 
 // Noise for organic curves
@@ -413,24 +412,23 @@ function noise(x, y, seed) {
          + Math.sin(x * 0.018 + y * 0.012 + s * 2.1) * 0.25;
 }
 
-// Generate organic vein paths
+// Generate organic vein paths spanning full page
 const veins = [];
 
 function generateVeins() {
     veins.length = 0;
-    const veinCount = 8;
+    const veinCount = 12;
 
     for (let i = 0; i < veinCount; i++) {
         const points = [];
         const seed = i * 7.3 + 1.7;
-        const steps = 200;
+        const steps = Math.floor(H / 4);
 
-        // Start from edges or random positions
         let x, y;
-        if (i % 4 === 0) { x = 0; y = Math.random() * H; }
-        else if (i % 4 === 1) { x = W; y = Math.random() * H; }
+        if (i % 4 === 0) { x = 0; y = (i / veinCount) * H; }
+        else if (i % 4 === 1) { x = W; y = (i / veinCount) * H; }
         else if (i % 4 === 2) { x = Math.random() * W; y = 0; }
-        else { x = Math.random() * W; y = H; }
+        else { x = Math.random() * W; y = (i / veinCount) * H * 0.5; }
 
         for (let s = 0; s < steps; s++) {
             points.push({ x, y });
@@ -438,23 +436,20 @@ function generateVeins() {
             const stepSize = 6 + Math.sin(s * 0.05) * 2;
             x += Math.cos(angle) * stepSize;
             y += Math.sin(angle) * stepSize;
-
-            // Gentle pull toward center to keep veins on screen
-            x += (W * 0.5 - x) * 0.003;
-            y += (H * 0.5 - y) * 0.003;
+            x += (W * 0.5 - x) * 0.002;
         }
 
-        // Generate 1-3 branches from this vein
-        const branchCount = 1 + Math.floor(Math.random() * 2);
+        // Branches
         const branches = [];
+        const branchCount = 1 + Math.floor(Math.random() * 2);
         for (let b = 0; b < branchCount; b++) {
             const branchStart = Math.floor(points.length * (0.2 + Math.random() * 0.5));
+            if (!points[branchStart]) continue;
             const branchPts = [];
             let bx = points[branchStart].x;
             let by = points[branchStart].y;
             const bSeed = seed + b * 3.7 + 11;
             const bSteps = 40 + Math.floor(Math.random() * 60);
-
             for (let s = 0; s < bSteps; s++) {
                 branchPts.push({ x: bx, y: by });
                 const angle = noise(bx, by, bSeed) * Math.PI * 2;
@@ -468,87 +463,180 @@ function generateVeins() {
     }
 }
 
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+// Traveling dot lights — each follows a vein path
+const dots = [];
+
+function generateDots() {
+    dots.length = 0;
+    // Multiple dots per vein, staggered
+    veins.forEach((vein, vi) => {
+        const dotsPerVein = 2 + Math.floor(Math.random() * 2);
+        for (let d = 0; d < dotsPerVein; d++) {
+            dots.push({
+                veinIndex: vi,
+                isBranch: false,
+                branchIndex: 0,
+                pos: Math.random() * vein.points.length,
+                speed: 0.3 + Math.random() * 0.5,
+                size: 2 + Math.random() * 2,
+                glowRadius: 80 + Math.random() * 60,
+            });
+        }
+        // Dots on branches too
+        vein.branches.forEach((branch, bi) => {
+            dots.push({
+                veinIndex: vi,
+                isBranch: true,
+                branchIndex: bi,
+                pos: Math.random() * branch.length,
+                speed: 0.2 + Math.random() * 0.4,
+                size: 1.5 + Math.random() * 1.5,
+                glowRadius: 60 + Math.random() * 40,
+            });
+        });
+    });
+}
+
+setCanvasSize();
+generateVeins();
+generateDots();
+
+window.addEventListener('resize', () => {
+    setCanvasSize();
+    generateVeins();
+    generateDots();
+});
+
+// Recalculate on scroll height changes
+let lastScrollH = 0;
+setInterval(() => {
+    const newH = document.documentElement.scrollHeight;
+    if (newH !== lastScrollH) {
+        lastScrollH = newH;
+        setCanvasSize();
+        generateVeins();
+        generateDots();
+    }
+}, 2000);
 
 let mouseX = -1000, mouseY = -1000;
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
-    mouseY = e.clientY;
+    mouseY = e.clientY + window.scrollY;
 });
 
-let time = 0;
-
-function drawVeinPath(pts, baseOpacity, lineWidth, lightPos, lightRadius) {
+function drawVeinPath(pts, baseOpacity, lineWidth) {
     if (pts.length < 2) return;
-
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
     for (let i = 1; i < pts.length; i++) {
-        const p0 = pts[i - 1];
-        const p1 = pts[i];
+        ctx.lineTo(pts[i].x, pts[i].y);
+    }
+    ctx.strokeStyle = `rgba(100, 100, 105, ${baseOpacity * 0.2})`;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+}
 
-        // Distance from light source for glow
-        const midX = (p0.x + p1.x) * 0.5;
-        const midY = (p0.y + p1.y) * 0.5;
-        const distToLight = Math.sqrt((midX - lightPos.x) ** 2 + (midY - lightPos.y) ** 2);
-        const lightInfluence = Math.max(0, 1 - distToLight / lightRadius);
+function drawDotGlow(pts, dotPos, dotSize, glowRadius) {
+    const idx = Math.floor(dotPos);
+    const frac = dotPos - idx;
+    if (idx < 0 || idx >= pts.length - 1) return null;
 
-        // Distance from mouse for mouse glow
-        const distToMouse = Math.sqrt((midX - mouseX) ** 2 + (midY - mouseY) ** 2);
-        const mouseInfluence = Math.max(0, 1 - distToMouse / 300);
+    const p0 = pts[idx];
+    const p1 = pts[idx + 1];
+    const dx = p0.x + (p1.x - p0.x) * frac;
+    const dy = p0.y + (p1.y - p0.y) * frac;
 
-        const totalGlow = Math.min(1, lightInfluence * 0.7 + mouseInfluence * 0.5);
+    // Bright dot
+    ctx.beginPath();
+    ctx.arc(dx, dy, dotSize, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(210, 210, 215, 0.8)';
+    ctx.fill();
 
-        // Base vein: visible charcoal
-        const dimOpacity = baseOpacity * 0.25;
-        // Lit vein: brighter where light passes
-        const litOpacity = dimOpacity + totalGlow * baseOpacity * 0.5;
-        const brightness = 100 + totalGlow * 120;
+    // Inner glow
+    const innerGrad = ctx.createRadialGradient(dx, dy, 0, dx, dy, dotSize * 4);
+    innerGrad.addColorStop(0, 'rgba(200, 200, 210, 0.3)');
+    innerGrad.addColorStop(1, 'rgba(200, 200, 210, 0)');
+    ctx.beginPath();
+    ctx.arc(dx, dy, dotSize * 4, 0, Math.PI * 2);
+    ctx.fillStyle = innerGrad;
+    ctx.fill();
 
-        ctx.beginPath();
-        ctx.moveTo(p0.x, p0.y);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.strokeStyle = `rgba(${brightness}, ${brightness}, ${brightness + 5}, ${litOpacity})`;
-        ctx.lineWidth = lineWidth + totalGlow * 0.5;
-        ctx.stroke();
+    return { x: dx, y: dy, radius: glowRadius };
+}
 
-        // Glow halo around lit segments
-        if (totalGlow > 0.1) {
+function lightUpVein(pts, lightX, lightY, radius, lineWidth) {
+    for (let i = 1; i < pts.length; i++) {
+        const midX = (pts[i - 1].x + pts[i].x) * 0.5;
+        const midY = (pts[i - 1].y + pts[i].y) * 0.5;
+        const dist = Math.sqrt((midX - lightX) ** 2 + (midY - lightY) ** 2);
+        const influence = Math.max(0, 1 - dist / radius);
+
+        if (influence > 0.01) {
+            const b = 120 + influence * 100;
             ctx.beginPath();
-            ctx.moveTo(p0.x, p0.y);
-            ctx.lineTo(p1.x, p1.y);
-            ctx.strokeStyle = `rgba(${brightness}, ${brightness}, ${brightness + 10}, ${totalGlow * 0.1})`;
-            ctx.lineWidth = lineWidth + totalGlow * 10;
+            ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+            ctx.lineTo(pts[i].x, pts[i].y);
+            ctx.strokeStyle = `rgba(${b}, ${b}, ${b + 5}, ${influence * 0.45})`;
+            ctx.lineWidth = lineWidth + influence * 1.5;
             ctx.stroke();
+
+            // Soft halo
+            if (influence > 0.2) {
+                ctx.beginPath();
+                ctx.moveTo(pts[i - 1].x, pts[i - 1].y);
+                ctx.lineTo(pts[i].x, pts[i].y);
+                ctx.strokeStyle = `rgba(${b}, ${b}, ${b + 10}, ${influence * 0.08})`;
+                ctx.lineWidth = lineWidth + influence * 12;
+                ctx.stroke();
+            }
         }
     }
 }
 
 function animate() {
     ctx.clearRect(0, 0, W, H);
-    time += 0.004;
 
-    // Moving light positions — flowing along the veins
-    const light1 = {
-        x: W * 0.5 + Math.sin(time * 0.8) * W * 0.4,
-        y: H * 0.4 + Math.cos(time * 0.6) * H * 0.35
-    };
-    const light2 = {
-        x: W * 0.5 + Math.cos(time * 0.5 + 2) * W * 0.35,
-        y: H * 0.6 + Math.sin(time * 0.7 + 1.5) * H * 0.3
-    };
-
-    // Draw each vein with flowing light
+    // Draw base veins (dim)
     veins.forEach(vein => {
-        // Main vein
-        drawVeinPath(vein.points, 1.0, 0.8, light1, 400);
-        drawVeinPath(vein.points, 0.6, 0.8, light2, 350);
+        drawVeinPath(vein.points, 1.0, 0.8);
+        vein.branches.forEach(branch => drawVeinPath(branch, 0.5, 0.5));
+    });
 
-        // Branches — thinner, dimmer
-        vein.branches.forEach(branch => {
-            drawVeinPath(branch, 0.5, 0.5, light1, 350);
-            drawVeinPath(branch, 0.3, 0.5, light2, 300);
+    // Move dots and draw them
+    const allLights = [];
+
+    dots.forEach(dot => {
+        const vein = veins[dot.veinIndex];
+        if (!vein) return;
+        const pts = dot.isBranch ? vein.branches[dot.branchIndex] : vein.points;
+        if (!pts || pts.length < 2) return;
+
+        // Move dot along path
+        dot.pos += dot.speed;
+        if (dot.pos >= pts.length - 1) dot.pos = 0;
+
+        const light = drawDotGlow(pts, dot.pos, dot.size, dot.glowRadius);
+        if (light) allLights.push({ ...light, isBranch: dot.isBranch, veinIndex: dot.veinIndex, branchIndex: dot.branchIndex });
+    });
+
+    // Light up veins near each dot
+    allLights.forEach(light => {
+        veins.forEach((vein, vi) => {
+            lightUpVein(vein.points, light.x, light.y, light.radius, 0.8);
+            vein.branches.forEach(branch => {
+                lightUpVein(branch, light.x, light.y, light.radius * 0.8, 0.5);
+            });
         });
     });
+
+    // Mouse also lights up veins
+    if (mouseX > 0) {
+        veins.forEach(vein => {
+            lightUpVein(vein.points, mouseX, mouseY, 250, 0.8);
+            vein.branches.forEach(branch => lightUpVein(branch, mouseX, mouseY, 200, 0.5));
+        });
+    }
 
     requestAnimationFrame(animate);
 }
