@@ -90,73 +90,29 @@
         font-size: 20px;
     }
 
-    /* ===== NEON BACKGROUND ANIMATIONS ===== */
+    /* ===== MARBLE BACKGROUND ===== */
 
-    /* Neon ring orbiting in hero */
-    .neon-ring {
-        position: absolute;
-        border-radius: 50%;
-        border: 2px solid transparent;
+    /* Grain noise overlay */
+    .grain-overlay {
+        position: fixed;
+        inset: 0;
         pointer-events: none;
+        z-index: 1;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 256px 256px;
     }
 
-    .neon-ring-1 {
-        width: 600px;
-        height: 600px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-color: transparent;
-        background: conic-gradient(from 0deg, transparent 0%, transparent 70%, rgba(180, 180, 190, 0.5) 85%, rgba(220, 220, 225, 0.7) 90%, rgba(180, 180, 190, 0.5) 95%, transparent 100%) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        padding: 2px;
-        animation: neon-spin 6s linear infinite;
-        filter: blur(1px);
-    }
-
-    .neon-ring-2 {
-        width: 900px;
-        height: 900px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: conic-gradient(from 180deg, transparent 0%, transparent 75%, rgba(160, 160, 170, 0.35) 87%, rgba(200, 200, 210, 0.5) 92%, rgba(160, 160, 170, 0.35) 97%, transparent 100%) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        padding: 2px;
-        animation: neon-spin-reverse 10s linear infinite;
-        filter: blur(1.5px);
-    }
-
-    .neon-ring-3 {
-        width: 400px;
-        height: 400px;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: conic-gradient(from 90deg, transparent 0%, transparent 60%, rgba(190, 190, 200, 0.7) 78%, rgba(230, 230, 235, 0.8) 82%, rgba(190, 190, 200, 0.7) 86%, transparent 100%) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        padding: 2px;
-        animation: neon-spin 4s linear infinite;
-        filter: blur(0.5px);
-    }
-
-    @keyframes neon-spin {
-        from { transform: translate(-50%, -50%) rotate(0deg); }
-        to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    @keyframes neon-spin-reverse {
-        from { transform: translate(-50%, -50%) rotate(360deg); }
-        to { transform: translate(-50%, -50%) rotate(0deg); }
+    /* Marble canvas */
+    #marbleCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
     }
 
     /* ===== ROTATING TEXT ===== */
@@ -274,22 +230,14 @@
         100% { opacity: 1; }
     }
 
-    /* ===== CANVAS for advanced neon ===== */
-    #neonCanvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-    }
 </style>
 </head>
 <body class="bg-background text-on-background font-body selection:bg-zinc-600/40 selection:text-white">
 
-<!-- Neon Canvas Background -->
-<canvas id="neonCanvas"></canvas>
+<!-- Marble Canvas Background -->
+<canvas id="marbleCanvas"></canvas>
+<!-- Grain Overlay -->
+<div class="grain-overlay"></div>
 
 <!-- Cursor Glow -->
 <div class="cursor-glow" id="cursorGlow"></div>
@@ -315,11 +263,6 @@
 
 <!-- Hero Section -->
 <section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-10 overflow-hidden" style="background: radial-gradient(circle at 50% 50%, rgba(180, 180, 190, 0.03) 0%, transparent 70%), #050508;">
-
-    <!-- Neon spinning rings -->
-    <div class="neon-ring neon-ring-1"></div>
-    <div class="neon-ring neon-ring-2"></div>
-    <div class="neon-ring neon-ring-3"></div>
 
     <!-- Subtle P background -->
     <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
@@ -420,14 +363,6 @@
 <section class="py-32 md:py-56 px-6 md:px-10 relative overflow-hidden bg-zinc-950/50">
     <div class="absolute inset-0 bg-zinc-500/5 blur-[160px] rounded-full translate-y-1/2"></div>
 
-    <!-- Neon rings for CTA section -->
-    <div class="neon-ring" style="width: 500px; height: 500px; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: conic-gradient(from 270deg, transparent 0%, transparent 80%, rgba(180, 180, 190, 0.3) 90%, transparent 100%) border-box;
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor; mask-composite: exclude; padding: 2px;
-        animation: neon-spin 8s linear infinite; filter: blur(1px);"></div>
-
     <div class="max-w-5xl mx-auto text-center relative z-10">
         <h2 class="text-5xl md:text-8xl font-bold font-headline tracking-tighter text-white mb-10 leading-tight">Stop Losing Listings<br/>to Faster Agents.</h2>
         <p class="text-xl md:text-2xl text-zinc-400 mb-16 font-light max-w-2xl mx-auto leading-relaxed">Let's audit your workflow and find exactly what to automate for maximum scale.</p>
@@ -463,127 +398,127 @@
 </div>
 
 <script>
-// ===== NEON CANVAS BACKGROUND =====
-const canvas = document.getElementById('neonCanvas');
+// ===== MARBLE VEINS BACKGROUND =====
+const canvas = document.getElementById('marbleCanvas');
 const ctx = canvas.getContext('2d');
 
+let W, H;
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// Neon particles on canvas
-const neonParticles = [];
-const PARTICLE_COUNT = 50;
-
-class NeonParticle {
-    constructor() {
-        this.reset();
-    }
-
-    reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 0.5;
-        this.opacity = Math.random() * 0.5 + 0.1;
-        this.pulseSpeed = Math.random() * 0.02 + 0.01;
-        this.pulsePhase = Math.random() * Math.PI * 2;
-        this.hue = Math.random() > 0.5 ? 240 : 220; // cool charcoal tones
-    }
-
-    update(time) {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        this.currentOpacity = this.opacity * (0.5 + 0.5 * Math.sin(time * this.pulseSpeed + this.pulsePhase));
-    }
-
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 5%, 70%, ${this.currentOpacity})`;
-        ctx.fill();
-
-        // Glow
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 5%, 70%, ${this.currentOpacity * 0.15})`;
-        ctx.fill();
-    }
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    generateMarble();
 }
 
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    neonParticles.push(new NeonParticle());
+// Simplex-like noise using layered sine waves
+function noise(x, y) {
+    let v = 0;
+    v += Math.sin(x * 0.003 + y * 0.005) * 1.0;
+    v += Math.sin(x * 0.007 - y * 0.003 + 1.3) * 0.5;
+    v += Math.sin(x * 0.012 + y * 0.009 - 2.1) * 0.35;
+    v += Math.sin(x * 0.02 - y * 0.015 + 3.7) * 0.2;
+    v += Math.sin(x * 0.035 + y * 0.025 + 0.8) * 0.1;
+    v += Math.sin(x * 0.06 - y * 0.04 - 1.5) * 0.05;
+    return v;
 }
 
-// Connection lines between nearby particles
-function drawConnections(ctx, particles) {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
+// Marble vein pattern
+function marbleValue(x, y) {
+    const n = noise(x, y);
+    // Warp coordinates for organic feel
+    const wx = x + noise(x * 1.5, y * 0.8) * 60;
+    const wy = y + noise(x * 0.7, y * 1.3) * 60;
+    const vein = Math.sin(wx * 0.008 + wy * 0.004 + n * 3.0);
+    // Sharpen veins
+    const sharpVein = Math.pow(Math.abs(vein), 0.3) * Math.sign(vein);
+    return sharpVein;
+}
 
-            if (dist < 150) {
-                const lineOpacity = (1 - dist / 150) * 0.15;
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(180, 180, 190, ${lineOpacity})`;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
+let marbleImageData = null;
+
+function generateMarble() {
+    const imageData = ctx.createImageData(W, H);
+    const data = imageData.data;
+    const step = 2; // Render at half res for performance
+
+    for (let y = 0; y < H; y += step) {
+        for (let x = 0; x < W; x += step) {
+            const v = marbleValue(x, y);
+
+            // Map to dark marble: base is near-black, veins are subtle charcoal
+            const normalized = (v + 1) * 0.5; // 0 to 1
+            const base = 8; // near black
+            const veinBright = 35; // subtle charcoal veins
+            const brightness = base + normalized * (veinBright - base);
+
+            // Slight cool tint
+            const r = brightness * 0.95;
+            const g = brightness * 0.96;
+            const b = brightness * 1.02;
+
+            // Fill the step x step block
+            for (let dy = 0; dy < step && y + dy < H; dy++) {
+                for (let dx = 0; dx < step && x + dx < W; dx++) {
+                    const idx = ((y + dy) * W + (x + dx)) * 4;
+                    data[idx] = r;
+                    data[idx + 1] = g;
+                    data[idx + 2] = b;
+                    data[idx + 3] = 255;
+                }
             }
         }
     }
+    marbleImageData = imageData;
 }
 
-// Mouse interaction with canvas particles
-let canvasMouseX = -1000;
-let canvasMouseY = -1000;
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Mouse position for light effect
+let mouseX = -1000, mouseY = -1000;
 
 document.addEventListener('mousemove', (e) => {
-    canvasMouseX = e.clientX;
-    canvasMouseY = e.clientY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 });
 
-function animate(time) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Animate light moving across marble
+let lightAngle = 0;
 
-    // Attract particles gently toward mouse
-    neonParticles.forEach(p => {
-        const dx = canvasMouseX - p.x;
-        const dy = canvasMouseY - p.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 300 && dist > 0) {
-            p.vx += (dx / dist) * 0.01;
-            p.vy += (dy / dist) * 0.01;
-        }
-        // Dampen velocity
-        p.vx *= 0.99;
-        p.vy *= 0.99;
+function animate() {
+    if (!marbleImageData) { requestAnimationFrame(animate); return; }
 
-        p.update(time);
-        p.draw(ctx);
-    });
+    // Draw base marble
+    ctx.putImageData(marbleImageData, 0, 0);
 
-    drawConnections(ctx, neonParticles);
+    // Ambient moving light — slow sweep across the marble
+    lightAngle += 0.003;
+    const ambientX = W * 0.5 + Math.sin(lightAngle) * W * 0.35;
+    const ambientY = H * 0.5 + Math.cos(lightAngle * 0.7) * H * 0.25;
 
-    // Draw a glow at mouse position on canvas
-    if (canvasMouseX > 0) {
-        const gradient = ctx.createRadialGradient(canvasMouseX, canvasMouseY, 0, canvasMouseX, canvasMouseY, 200);
-        gradient.addColorStop(0, 'rgba(200, 200, 210, 0.04)');
-        gradient.addColorStop(1, 'rgba(200, 200, 210, 0)');
-        ctx.beginPath();
-        ctx.arc(canvasMouseX, canvasMouseY, 200, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
+    const ambientGrad = ctx.createRadialGradient(ambientX, ambientY, 0, ambientX, ambientY, W * 0.5);
+    ambientGrad.addColorStop(0, 'rgba(200, 200, 210, 0.06)');
+    ambientGrad.addColorStop(0.5, 'rgba(160, 160, 170, 0.02)');
+    ambientGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = ambientGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Secondary light — offset phase
+    const amb2X = W * 0.4 + Math.cos(lightAngle * 0.5 + 2) * W * 0.3;
+    const amb2Y = H * 0.6 + Math.sin(lightAngle * 0.6 + 1) * H * 0.3;
+    const ambGrad2 = ctx.createRadialGradient(amb2X, amb2Y, 0, amb2X, amb2Y, W * 0.35);
+    ambGrad2.addColorStop(0, 'rgba(180, 180, 190, 0.04)');
+    ambGrad2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = ambGrad2;
+    ctx.fillRect(0, 0, W, H);
+
+    // Mouse light — illuminates marble where cursor moves
+    if (mouseX > 0) {
+        const mGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 350);
+        mGrad.addColorStop(0, 'rgba(220, 220, 225, 0.08)');
+        mGrad.addColorStop(0.4, 'rgba(180, 180, 190, 0.04)');
+        mGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = mGrad;
+        ctx.fillRect(0, 0, W, H);
     }
 
     requestAnimationFrame(animate);
