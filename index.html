@@ -171,22 +171,22 @@
         position: relative;
         left: auto;
         transform: none;
-        animation: text-fade-in 0.5s ease-out forwards;
+        animation: text-fade-in 0.4s ease-out forwards;
     }
 
     .rotating-word.exiting {
         position: absolute;
-        animation: text-fade-out 0.5s ease-in forwards;
+        animation: text-fade-out 0.4s ease-in forwards;
     }
 
     @keyframes text-fade-in {
-        0% { opacity: 0; transform: translateY(15px); filter: blur(6px); }
-        100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        0% { opacity: 0; }
+        100% { opacity: 1; }
     }
 
     @keyframes text-fade-out {
-        0% { opacity: 1; transform: translateX(-50%) translateY(0); filter: blur(0); }
-        100% { opacity: 0; transform: translateX(-50%) translateY(-15px); filter: blur(6px); }
+        0% { opacity: 1; transform: translateX(-50%); }
+        100% { opacity: 0; transform: translateX(-50%); }
     }
 
     /* ===== MOUSE FOLLOW LIGHT ===== */
@@ -681,15 +681,12 @@ setInterval(() => {
     current.classList.remove('active');
     current.classList.add('exiting');
 
-    // Wait for exit to fully complete, then show next
     setTimeout(() => {
         current.classList.remove('exiting');
         current.style.opacity = '0';
-
-        // Enter next
         next.classList.add('active');
         currentIndex = nextIndex;
-    }, 500);
+    }, 400);
 }, 5000);
 </script>
 
