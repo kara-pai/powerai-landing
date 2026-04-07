@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>PowerAI | Real Estate AI Automation Agency</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -152,41 +153,9 @@
     }
 
     /* ===== ROTATING TEXT ===== */
-    .rotating-text {
-        display: inline-block;
-        position: relative;
-    }
-
-    .rotating-word {
-        display: inline-block;
-        opacity: 0;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-    }
-
-    .rotating-word.active {
-        opacity: 1;
-        position: relative;
-        left: auto;
-        transform: none;
-        animation: text-fade-in 0.4s ease-out forwards;
-    }
-
-    .rotating-word.exiting {
-        position: absolute;
-        animation: text-fade-out 0.4s ease-in forwards;
-    }
-
-    @keyframes text-fade-in {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-    }
-
-    @keyframes text-fade-out {
-        0% { opacity: 1; transform: translateX(-50%); }
-        100% { opacity: 0; transform: translateX(-50%); }
+    #rotatingText {
+        display: inline;
+        transition: opacity 0.3s ease;
     }
 
     /* ===== MOUSE FOLLOW LIGHT ===== */
@@ -353,11 +322,7 @@
     <div class="relative z-10 text-center max-w-6xl">
         <h1 class="text-4xl md:text-6xl lg:text-[5.5rem] font-bold font-headline tracking-tighter leading-[1.1] text-white whitespace-nowrap">
             Your assistant for<br/>
-            <span class="rotating-text text-glow" style="color: rgb(99, 102, 241);" id="rotatingText">
-                <span class="rotating-word active" data-index="0">scheduling inspections</span>
-                <span class="rotating-word" data-index="1">drafting replies</span>
-                <span class="rotating-word" data-index="2">booking appraisals</span>
-            </span>
+            <span class="text-glow" style="color: rgb(99, 102, 241);" id="rotatingText">scheduling inspections</span>
         </h1>
         <p class="mt-10 md:mt-14 text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
             AI assistant built for real estate agents — capture every lead, follow up instantly, and convert more listings without increasing headcount.
@@ -660,33 +625,17 @@ if (cardGrid) {
 }
 
 // ===== ROTATING HERO TEXT =====
-const words = document.querySelectorAll('.rotating-word');
-let currentIndex = 0;
-
-// Initialize — first word is active, rest are hidden
-const rotatingContainer = document.getElementById('rotatingText');
-words.forEach((word, i) => {
-    if (i !== 0) {
-        word.style.opacity = '0';
-    }
-});
-rotatingContainer.style.display = 'inline-block';
+const rotatingEl = document.getElementById('rotatingText');
+const phrases = ['scheduling inspections', 'drafting replies', 'booking appraisals'];
+let phraseIndex = 0;
 
 setInterval(() => {
-    const current = words[currentIndex];
-    const nextIndex = (currentIndex + 1) % words.length;
-    const next = words[nextIndex];
-
-    // Exit current — goes absolute immediately so it doesn't take up space
-    current.classList.remove('active');
-    current.classList.add('exiting');
-
+    rotatingEl.style.opacity = '0';
     setTimeout(() => {
-        current.classList.remove('exiting');
-        current.style.opacity = '0';
-        next.classList.add('active');
-        currentIndex = nextIndex;
-    }, 400);
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        rotatingEl.textContent = phrases[phraseIndex];
+        rotatingEl.style.opacity = '1';
+    }, 300);
 }, 5000);
 </script>
 
