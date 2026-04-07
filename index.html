@@ -136,10 +136,12 @@
 
     /* ===== GLASS CARDS WITH MOUSE LIGHT ===== */
     .os-glass {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(18, 18, 22, 0.65);
+        backdrop-filter: blur(30px) saturate(150%);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-top-color: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
         position: relative;
         overflow: hidden;
         transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -186,8 +188,9 @@
     }
 
     .os-glass:hover {
-        border-color: rgba(200, 200, 210, 0.2);
-        box-shadow: 0 0 30px rgba(200, 200, 210, 0.06), inset 0 0 30px rgba(200, 200, 210, 0.02);
+        border-color: rgba(255, 255, 255, 0.18);
+        background: rgba(22, 22, 28, 0.75);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(200, 200, 210, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     /* ===== BUTTONS ===== */
@@ -291,7 +294,7 @@
     <div class="mb-20 md:mb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
         <div class="space-y-4">
             <span class="text-zinc-400 font-bold tracking-widest text-xs uppercase">Trusted by 1000+ real estate agents</span>
-            <h2 class="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-white max-w-2xl">The Operating System for Agents.</h2>
+            <h2 class="text-4xl md:text-5xl font-bold font-headline tracking-tighter text-white max-w-2xl">The Operating System for Agents.</h2>
         </div>
         <p class="font-label text-zinc-500 text-sm tracking-widest font-medium">
             VER 4.2 // ARCHITECTURE FOR AGENTS
@@ -358,7 +361,7 @@
     <div class="absolute inset-0 bg-zinc-500/5 blur-[160px] rounded-full translate-y-1/2"></div>
 
     <div class="max-w-5xl mx-auto text-center relative z-10">
-        <h2 class="text-5xl md:text-8xl font-bold font-headline tracking-tighter text-white mb-10 leading-tight">Stop Losing Listings<br/>to Faster Agents.</h2>
+        <h2 class="text-4xl md:text-5xl font-bold font-headline tracking-tighter text-white mb-10 leading-tight">Stop Losing Listings<br/>to Faster Agents.</h2>
         <p class="text-xl md:text-2xl text-zinc-400 mb-16 font-light max-w-2xl mx-auto leading-relaxed">Let's audit your workflow and find exactly what to automate for maximum scale.</p>
         <a href="mailto:kara@powrai.au?subject=Book%20a%20Strategy%20Call&body=Hi%20PowerAI%2C%0A%0AI%27d%20like%20to%20book%20a%20strategy%20call%20to%20discuss%20AI%20automation%20for%20my%20real%20estate%20business.%0A%0AName%3A%20%0APhone%3A%20%0ABest%20time%20to%20call%3A%20%0A%0AThanks!" class="os-button-primary px-16 py-6 rounded-2xl font-bold tracking-widest uppercase text-xs transition-all duration-300 transform active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.1)] inline-block">Book Your Strategy Call</a>
     </div>
