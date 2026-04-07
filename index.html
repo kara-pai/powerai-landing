@@ -107,8 +107,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        border-color: rgba(99, 102, 241, 0.0);
-        background: conic-gradient(from 0deg, transparent 0%, transparent 70%, rgba(99, 102, 241, 0.6) 85%, rgba(139, 92, 246, 0.8) 90%, rgba(99, 102, 241, 0.6) 95%, transparent 100%) border-box;
+        border-color: transparent;
+        background: conic-gradient(from 0deg, transparent 0%, transparent 70%, rgba(180, 180, 190, 0.5) 85%, rgba(220, 220, 225, 0.7) 90%, rgba(180, 180, 190, 0.5) 95%, transparent 100%) border-box;
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
@@ -124,7 +124,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: conic-gradient(from 180deg, transparent 0%, transparent 75%, rgba(139, 92, 246, 0.4) 87%, rgba(99, 102, 241, 0.6) 92%, rgba(139, 92, 246, 0.4) 97%, transparent 100%) border-box;
+        background: conic-gradient(from 180deg, transparent 0%, transparent 75%, rgba(160, 160, 170, 0.35) 87%, rgba(200, 200, 210, 0.5) 92%, rgba(160, 160, 170, 0.35) 97%, transparent 100%) border-box;
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
@@ -140,7 +140,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: conic-gradient(from 90deg, transparent 0%, transparent 60%, rgba(99, 102, 241, 0.8) 78%, rgba(168, 85, 247, 0.9) 82%, rgba(99, 102, 241, 0.8) 86%, transparent 100%) border-box;
+        background: conic-gradient(from 90deg, transparent 0%, transparent 60%, rgba(190, 190, 200, 0.7) 78%, rgba(230, 230, 235, 0.8) 82%, rgba(190, 190, 200, 0.7) 86%, transparent 100%) border-box;
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
@@ -171,7 +171,7 @@
         position: fixed;
         width: 500px;
         height: 500px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.08) 30%, transparent 70%);
+        background: radial-gradient(circle, rgba(200, 200, 210, 0.12) 0%, rgba(160, 160, 170, 0.06) 30%, transparent 70%);
         border-radius: 50%;
         pointer-events: none;
         z-index: 9999;
@@ -199,7 +199,7 @@
         left: var(--mouse-x, -200px);
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.15) 30%, transparent 70%);
+        background: radial-gradient(circle, rgba(200, 200, 210, 0.2) 0%, rgba(160, 160, 170, 0.1) 30%, transparent 70%);
         transform: translate(-50%, -50%);
         pointer-events: none;
         opacity: 0;
@@ -219,7 +219,7 @@
         border-radius: inherit;
         background: radial-gradient(
             800px circle at var(--mouse-x, -200px) var(--mouse-y, -200px),
-            rgba(99, 102, 241, 0.12),
+            rgba(200, 200, 210, 0.08),
             transparent 40%
         );
         pointer-events: none;
@@ -232,8 +232,8 @@
     }
 
     .os-glass:hover {
-        border-color: rgba(99, 102, 241, 0.25);
-        box-shadow: 0 0 30px rgba(99, 102, 241, 0.08), inset 0 0 30px rgba(99, 102, 241, 0.03);
+        border-color: rgba(200, 200, 210, 0.2);
+        box-shadow: 0 0 30px rgba(200, 200, 210, 0.06), inset 0 0 30px rgba(200, 200, 210, 0.02);
     }
 
     /* ===== BUTTONS ===== */
@@ -255,18 +255,18 @@
     }
     .os-button-primary:hover {
         background: #fff;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2), 0 0 60px rgba(99, 102, 241, 0.15);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 0 60px rgba(200, 200, 210, 0.08);
     }
 
     .text-glow {
-        text-shadow: 0 0 40px rgba(99, 102, 241, 0.5), 0 0 80px rgba(99, 102, 241, 0.2);
+        text-shadow: 0 0 40px rgba(180, 180, 190, 0.4), 0 0 80px rgba(160, 160, 170, 0.15);
     }
 
     /* ===== SECTION NEON DIVIDER ===== */
     .neon-divider {
         height: 1px;
-        background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.5) 30%, rgba(139, 92, 246, 0.8) 50%, rgba(99, 102, 241, 0.5) 70%, transparent 100%);
-        box-shadow: 0 0 10px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+        background: linear-gradient(90deg, transparent 0%, rgba(180, 180, 190, 0.3) 30%, rgba(220, 220, 225, 0.5) 50%, rgba(180, 180, 190, 0.3) 70%, transparent 100%);
+        box-shadow: 0 0 10px rgba(200, 200, 210, 0.2), 0 0 30px rgba(200, 200, 210, 0.1);
         animation: divider-pulse 3s ease-in-out infinite alternate;
     }
 
@@ -287,7 +287,7 @@
     }
 </style>
 </head>
-<body class="bg-background text-on-background font-body selection:bg-primary/30 selection:text-white">
+<body class="bg-background text-on-background font-body selection:bg-zinc-600/40 selection:text-white">
 
 <!-- Neon Canvas Background -->
 <canvas id="neonCanvas"></canvas>
@@ -299,7 +299,7 @@
 <nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-2xl border-b border-white/10 flex justify-between items-center px-6 md:px-10 py-5 max-w-full mx-auto">
     <div class="flex flex-col hover:opacity-80 transition-opacity cursor-pointer">
         <span class="text-xl md:text-2xl font-bold tracking-tight text-white uppercase font-headline">PowerAI</span>
-        <span class="font-label text-[9px] tracking-[0.3em] text-indigo-400/80 uppercase font-medium leading-none mt-1">AI studio</span>
+        <span class="font-label text-[9px] tracking-[0.3em] text-zinc-400 uppercase font-medium leading-none mt-1">AI studio</span>
     </div>
     <div class="flex items-center gap-5 md:gap-8">
         <a aria-label="LinkedIn" class="text-zinc-400 hover:text-white transition-all duration-300 flex items-center" href="#">
@@ -315,7 +315,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-10 overflow-hidden" style="background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.04) 0%, transparent 70%), #050508;">
+<section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-10 overflow-hidden" style="background: radial-gradient(circle at 50% 50%, rgba(180, 180, 190, 0.03) 0%, transparent 70%), #050508;">
 
     <!-- Neon spinning rings -->
     <div class="neon-ring neon-ring-1"></div>
@@ -330,7 +330,7 @@
     <div class="relative z-10 text-center max-w-6xl">
         <h1 class="text-4xl md:text-6xl lg:text-[5.5rem] font-bold font-headline tracking-tighter leading-[1.1] text-white whitespace-nowrap">
             Your assistant for<br/>
-            <span class="text-glow" style="color: rgb(99, 102, 241);" id="rotatingText">scheduling inspections</span>
+            <span class="text-glow" style="color: rgb(180, 180, 195);" id="rotatingText">scheduling inspections</span>
         </h1>
         <p class="mt-10 md:mt-14 text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
             AI assistant built for real estate agents — capture every lead, follow up instantly, and convert more listings without increasing headcount.
@@ -354,7 +354,7 @@
 
     <div class="mb-20 md:mb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
         <div class="space-y-4">
-            <span class="text-indigo-500 font-bold tracking-widest text-xs uppercase">Trusted by 1000+ real estate agents</span>
+            <span class="text-zinc-400 font-bold tracking-widest text-xs uppercase">Trusted by 1000+ real estate agents</span>
             <h2 class="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-white max-w-2xl">The Operating System for Agents.</h2>
         </div>
         <p class="font-label text-zinc-500 text-sm tracking-widest font-medium">
@@ -366,7 +366,7 @@
         <!-- Card 1 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">List Properties in Minutes</h3>
             <p class="text-zinc-400 leading-relaxed font-light">AI writes descriptions, uploads to portals, and publishes across platforms — instantly.</p>
@@ -374,7 +374,7 @@
         <!-- Card 2 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-1.35 2-2.5 3s-2.5 1.5-2.5 3"/><path d="M12 18h.01"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-1.35 2-2.5 3s-2.5 1.5-2.5 3"/><path d="M12 18h.01"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">Never Miss a Lead Again</h3>
             <p class="text-zinc-400 leading-relaxed font-light">AI follows up instantly, qualifies buyers, and books appraisals while you focus on closing.</p>
@@ -382,7 +382,7 @@
         <!-- Card 3 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="4"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="4"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">Appointments on Autopilot</h3>
             <p class="text-zinc-400 leading-relaxed font-light">We design your pipeline so every lead moves toward a booked inspection or listing.</p>
@@ -390,7 +390,7 @@
         <!-- Card 4 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="6" rx="1" width="6" x="16" y="16"/><rect height="6" rx="1" width="6" x="2" y="16"/><rect height="6" rx="1" width="6" x="9" y="2"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="6" rx="1" width="6" x="16" y="16"/><rect height="6" rx="1" width="6" x="2" y="16"/><rect height="6" rx="1" width="6" x="9" y="2"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">Everything Connected</h3>
             <p class="text-zinc-400 leading-relaxed font-light">CRM, REA, Domain, email, SMS, iMessage — all synced into one high-performance interface.</p>
@@ -398,7 +398,7 @@
         <!-- Card 5 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" width="18" x="3" y="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" width="18" x="3" y="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">Built for Real Estate Agents</h3>
             <p class="text-zinc-400 leading-relaxed font-light">No generic tools. Everything is architected specifically to win listings and close deals.</p>
@@ -406,7 +406,7 @@
         <!-- Card 6 -->
         <div class="os-glass rounded-2xl p-10 group">
             <div class="flex justify-between items-start mb-16">
-                <svg class="text-indigo-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <svg class="text-zinc-400" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
             </div>
             <h3 class="text-2xl font-bold font-headline tracking-tight text-white mb-5">Secure Environment</h3>
             <p class="text-zinc-400 leading-relaxed font-light">Privacy-first architecture. Compliant, secure, and built on infrastructure you control.</p>
@@ -419,11 +419,11 @@
 
 <!-- Transition Section -->
 <section class="py-32 md:py-56 px-6 md:px-10 relative overflow-hidden bg-zinc-950/50">
-    <div class="absolute inset-0 bg-indigo-600/10 blur-[160px] rounded-full translate-y-1/2"></div>
+    <div class="absolute inset-0 bg-zinc-500/5 blur-[160px] rounded-full translate-y-1/2"></div>
 
     <!-- Neon rings for CTA section -->
     <div class="neon-ring" style="width: 500px; height: 500px; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        background: conic-gradient(from 270deg, transparent 0%, transparent 80%, rgba(99, 102, 241, 0.4) 90%, transparent 100%) border-box;
+        background: conic-gradient(from 270deg, transparent 0%, transparent 80%, rgba(180, 180, 190, 0.3) 90%, transparent 100%) border-box;
         -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor; mask-composite: exclude; padding: 2px;
@@ -447,9 +447,9 @@
             </div>
             <div class="flex flex-col items-start md:items-end gap-10">
                 <div class="flex flex-wrap gap-8 md:gap-14 font-medium text-[11px] tracking-widest uppercase text-zinc-500">
-                    <a class="hover:text-indigo-400 transition-all" href="#">Privacy Policy</a>
-                    <a class="hover:text-indigo-400 transition-all" href="#">Terms of Service</a>
-                    <a class="hover:text-indigo-400 transition-all" href="mailto:kara@powrai.au">FAQ</a>
+                    <a class="hover:text-white transition-all" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-all" href="#">Terms of Service</a>
+                    <a class="hover:text-white transition-all" href="mailto:kara@powrai.au">FAQ</a>
                 </div>
                 <p class="text-zinc-600 text-[10px] tracking-[0.4em] uppercase font-bold">&copy; 2026 PowerAI AUSTRALIA ABN 54 676 680 532</p>
             </div>
@@ -493,7 +493,7 @@ class NeonParticle {
         this.opacity = Math.random() * 0.5 + 0.1;
         this.pulseSpeed = Math.random() * 0.02 + 0.01;
         this.pulsePhase = Math.random() * Math.PI * 2;
-        this.hue = Math.random() > 0.5 ? 239 : 270; // indigo or purple
+        this.hue = Math.random() > 0.5 ? 240 : 220; // cool charcoal tones
     }
 
     update(time) {
@@ -509,13 +509,13 @@ class NeonParticle {
     draw(ctx) {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, ${this.currentOpacity})`;
+        ctx.fillStyle = `hsla(${this.hue}, 5%, 70%, ${this.currentOpacity})`;
         ctx.fill();
 
         // Glow
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${this.hue}, 80%, 65%, ${this.currentOpacity * 0.15})`;
+        ctx.fillStyle = `hsla(${this.hue}, 5%, 70%, ${this.currentOpacity * 0.15})`;
         ctx.fill();
     }
 }
@@ -537,7 +537,7 @@ function drawConnections(ctx, particles) {
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(99, 102, 241, ${lineOpacity})`;
+                ctx.strokeStyle = `rgba(180, 180, 190, ${lineOpacity})`;
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
             }
@@ -579,8 +579,8 @@ function animate(time) {
     // Draw a glow at mouse position on canvas
     if (canvasMouseX > 0) {
         const gradient = ctx.createRadialGradient(canvasMouseX, canvasMouseY, 0, canvasMouseX, canvasMouseY, 200);
-        gradient.addColorStop(0, 'rgba(99, 102, 241, 0.06)');
-        gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+        gradient.addColorStop(0, 'rgba(200, 200, 210, 0.04)');
+        gradient.addColorStop(1, 'rgba(200, 200, 210, 0)');
         ctx.beginPath();
         ctx.arc(canvasMouseX, canvasMouseY, 200, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
