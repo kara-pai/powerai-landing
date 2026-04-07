@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PowerAI | Real Estate AI Automation Agency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "on-secondary-fixed-variant": "#45464e",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#1b1b1f",
+                    "inverse-surface": "#e5e1e7",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "secondary-container": "#45464e",
+                    "on-secondary": "#2f3037",
+                    "secondary": "#c6c6cf",
+                    "surface-container-highest": "#353439",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "surface-dim": "#131317",
+                    "outline-variant": "#464554",
+                    "primary-fixed": "#e1e0ff",
+                    "surface": "#131317",
+                    "background": "#050508",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-primary-fixed": "#07006c",
+                    "surface-variant": "#353439",
+                    "on-secondary-fixed": "#1a1b22",
+                    "on-secondary-container": "#b4b4bd",
+                    "surface-bright": "#39393d",
+                    "surface-container": "#1f1f23",
+                    "tertiary-container": "#767777",
+                    "on-surface": "#e5e1e7",
+                    "outline": "#908fa0",
+                    "surface-container-high": "#2a292e",
+                    "inverse-on-surface": "#303034",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "primary": "#6366F1",
+                    "surface-tint": "#c0c1ff",
+                    "on-background": "#e5e1e7",
+                    "primary-container": "#8083ff",
+                    "error-container": "#93000a",
+                    "on-primary": "#1000a9",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#e2e1eb",
+                    "secondary-fixed-dim": "#c6c6cf",
+                    "on-tertiary": "#2f3131",
+                    "on-primary-container": "#0d0096",
+                    "tertiary": "#c6c6c7",
+                    "inverse-primary": "#494bd6",
+                    "surface-container-lowest": "#0e0e12",
+                    "on-surface-variant": "#c7c4d7",
+                    "on-tertiary-container": "#040506",
+                    "on-error": "#690005"
+                },
+                borderRadius: {
+                    DEFAULT: "0.125rem",
+                    lg: "0.25rem",
+                    xl: "0.5rem",
+                    full: "0.75rem"
+                },
+                fontFamily: {
+                    headline: ["Inter", "sans-serif"],
+                    body: ["Inter", "sans-serif"],
+                    label: ["Space Grotesk", "sans-serif"]
+                }
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        font-size: 20px;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .glass-card::before {
+        content: '';
+        position: absolute;
+        top: var(--mouse-y, -100px);
+        left: var(--mouse-x, -100px);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .glass-card:hover::before {
+        opacity: 1;
+    }
+
+    .glass-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(
+            600px circle at var(--mouse-x, -100px) var(--mouse-y, -100px),
+            rgba(99, 102, 241, 0.08),
+            transparent 40%
+        );
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .glass-card > * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .text-glow {
+        text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Cursor glow */
+    .cursor-glow {
+        position: fixed;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.3s ease;
+        mix-blend-mode: screen;
+    }
+
+    /* Grid animation */
+    .grid-bg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .grid-bg svg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Floating particles */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: float linear infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(100vh) rotate(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-10vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+
+    /* Circuit line animations */
+    .circuit-line {
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+        animation: circuit-draw 4s ease-in-out infinite;
+    }
+
+    .circuit-line-2 { animation-delay: 1s; }
+    .circuit-line-3 { animation-delay: 2s; }
+    .circuit-line-4 { animation-delay: 3s; }
+    .circuit-line-5 { animation-delay: 0.5s; }
+    .circuit-line-6 { animation-delay: 1.5s; }
+    .circuit-line-7 { animation-delay: 2.5s; }
+    .circuit-line-8 { animation-delay: 3.5s; }
+
+    @keyframes circuit-draw {
+        0% { stroke-dashoffset: 200; opacity: 0; }
+        20% { opacity: 0.6; }
+        50% { stroke-dashoffset: 0; opacity: 0.6; }
+        80% { opacity: 0; }
+        100% { stroke-dashoffset: -200; opacity: 0; }
+    }
+
+    /* Node pulse */
+    .node-pulse {
+        animation: pulse-node 3s ease-in-out infinite;
+    }
+
+    .node-pulse-2 { animation-delay: 0.7s; }
+    .node-pulse-3 { animation-delay: 1.4s; }
+    .node-pulse-4 { animation-delay: 2.1s; }
+    .node-pulse-5 { animation-delay: 0.3s; }
+    .node-pulse-6 { animation-delay: 1.0s; }
+    .node-pulse-7 { animation-delay: 1.7s; }
+    .node-pulse-8 { animation-delay: 2.4s; }
+
+    @keyframes pulse-node {
+        0%, 100% { r: 2; opacity: 0.2; }
+        50% { r: 4; opacity: 0.8; }
+    }
+
+    /* Data flow dots */
+    .data-dot {
+        animation: data-flow 3s linear infinite;
+    }
+
+    .data-dot-2 { animation-delay: 0.6s; }
+    .data-dot-3 { animation-delay: 1.2s; }
+    .data-dot-4 { animation-delay: 1.8s; }
+    .data-dot-5 { animation-delay: 2.4s; }
+
+    @keyframes data-flow {
+        0% { offset-distance: 0%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { offset-distance: 100%; opacity: 0; }
+    }
+
+    /* Hex grid */
+    .hex-float {
+        animation: hex-drift 20s ease-in-out infinite;
+    }
+
+    .hex-float-2 { animation-delay: -5s; animation-duration: 25s; }
+    .hex-float-3 { animation-delay: -10s; animation-duration: 22s; }
+
+    @keyframes hex-drift {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(30px, -20px) rotate(5deg); }
+        50% { transform: translate(-20px, 15px) rotate(-3deg); }
+        75% { transform: translate(15px, 25px) rotate(4deg); }
+    }
+
+    /* Scan line */
+    .scan-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.15) 50%, transparent 100%);
+        animation: scan 8s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scan {
+        0% { top: -1px; opacity: 0; }
+        5% { opacity: 1; }
+        95% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+
+    /* Gradient orbs */
+    .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        animation: orb-float 15s ease-in-out infinite;
+    }
+
+    .gradient-orb-2 { animation-delay: -5s; animation-duration: 18s; }
+    .gradient-orb-3 { animation-delay: -10s; animation-duration: 20s; }
+
+    @keyframes orb-float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(50px, -30px) scale(1.1); }
+        66% { transform: translate(-30px, 40px) scale(0.9); }
+    }
+</style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-white">
+
+<!-- Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-transparent backdrop-blur-xl flex justify-between items-center px-8 py-6 max-w-full mx-auto">
+    <div class="flex flex-col">
+        <span class="text-2xl font-black tracking-tighter text-white uppercase font-headline">PowerAI</span>
+        <span class="font-label text-[10px] tracking-[0.2em] text-zinc-500 uppercase font-bold leading-none mt-1">AI STUDIO</span>
+    </div>
+    <div class="flex items-center gap-6">
+        <a class="text-zinc-400 hover:text-white transition-colors duration-300" href="#">
+            <span class="material-symbols-outlined" data-icon="share">share</span>
+        </a>
+        <a class="text-zinc-400 hover:text-white transition-colors duration-300" href="#">
+            <span class="material-symbols-outlined" data-icon="public">public</span>
+        </a>
+        <a class="text-zinc-400 hover:text-white transition-colors duration-300" href="#">
+            <span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span>
+        </a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-8 overflow-hidden">
+
+    <!-- Animated Background: Circuit/Tech Pattern -->
+    <div class="grid-bg">
+        <!-- Gradient orbs -->
+        <div class="gradient-orb gradient-orb-2" style="width: 500px; height: 500px; background: rgba(99, 102, 241, 0.04); top: 10%; left: 60%;"></div>
+        <div class="gradient-orb gradient-orb-3" style="width: 400px; height: 400px; background: rgba(99, 102, 241, 0.03); bottom: 20%; right: 70%;"></div>
+
+        <!-- Circuit board SVG -->
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid dots -->
+            <pattern id="grid-dots" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+                <circle cx="30" cy="30" r="0.5" fill="rgba(99, 102, 241, 0.15)"/>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#grid-dots)"/>
+
+            <!-- Circuit lines -->
+            <path d="M200 100 L200 300 L400 300 L400 500" class="circuit-line" fill="none" stroke="rgba(99, 102, 241, 0.12)" stroke-width="1"/>
+            <path d="M600 50 L600 200 L800 200 L800 400 L1000 400" class="circuit-line circuit-line-2" fill="none" stroke="rgba(99, 102, 241, 0.1)" stroke-width="1"/>
+            <path d="M1100 100 L1100 350 L900 350 L900 600" class="circuit-line circuit-line-3" fill="none" stroke="rgba(99, 102, 241, 0.08)" stroke-width="1"/>
+            <path d="M300 500 L500 500 L500 700 L700 700" class="circuit-line circuit-line-4" fill="none" stroke="rgba(99, 102, 241, 0.1)" stroke-width="1"/>
+            <path d="M50 400 L250 400 L250 200 L450 200" class="circuit-line circuit-line-5" fill="none" stroke="rgba(99, 102, 241, 0.09)" stroke-width="1"/>
+            <path d="M1200 250 L1000 250 L1000 500 L1200 500" class="circuit-line circuit-line-6" fill="none" stroke="rgba(99, 102, 241, 0.11)" stroke-width="1"/>
+            <path d="M700 100 L700 400 L500 400" class="circuit-line circuit-line-7" fill="none" stroke="rgba(99, 102, 241, 0.07)" stroke-width="1"/>
+            <path d="M1300 150 L1300 450 L1100 450 L1100 700" class="circuit-line circuit-line-8" fill="none" stroke="rgba(99, 102, 241, 0.09)" stroke-width="1"/>
+
+            <!-- Node points -->
+            <circle cx="200" cy="100" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse"/>
+            <circle cx="400" cy="300" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-2"/>
+            <circle cx="600" cy="200" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-3"/>
+            <circle cx="800" cy="400" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-4"/>
+            <circle cx="1100" cy="350" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-5"/>
+            <circle cx="500" cy="500" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-6"/>
+            <circle cx="1000" cy="250" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-7"/>
+            <circle cx="700" cy="700" r="2" fill="rgba(99, 102, 241, 0.4)" class="node-pulse node-pulse-8"/>
+
+            <!-- Hex shapes floating -->
+            <g class="hex-float" opacity="0.04">
+                <polygon points="350,150 380,130 410,150 410,190 380,210 350,190" fill="none" stroke="rgba(99, 102, 241, 1)" stroke-width="1"/>
+            </g>
+            <g class="hex-float hex-float-2" opacity="0.03">
+                <polygon points="950,350 980,330 1010,350 1010,390 980,410 950,390" fill="none" stroke="rgba(99, 102, 241, 1)" stroke-width="1"/>
+            </g>
+            <g class="hex-float hex-float-3" opacity="0.04">
+                <polygon points="150,550 180,530 210,550 210,590 180,610 150,590" fill="none" stroke="rgba(99, 102, 241, 1)" stroke-width="1"/>
+            </g>
+        </svg>
+
+        <!-- Scan line -->
+        <div class="scan-line"></div>
+    </div>
+
+    <!-- Subtle P background -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none select-none">
+        <span class="text-[819px] font-black font-headline">P</span>
+    </div>
+
+    <div class="relative z-10 text-center max-w-5xl">
+        <h1 class="text-6xl md:text-8xl lg:text-[10rem] font-black font-headline tracking-tighter leading-[0.85] text-white">
+            Sell More.<br>
+            List Faster.<br>
+            <span class="text-indigo-500 text-glow">Automate</span> Everything.
+        </h1>
+        <p class="mt-12 text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">AI systems built for real estate agents — capture every lead, follow up instantly, and convert more listings without hiring more staff.</p>
+        <div class="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6">
+            <button class="group relative px-12 py-5 bg-white border border-white rounded-full font-label font-bold tracking-widest uppercase text-sm overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 shadow-lg shadow-white/10">
+                <span class="relative z-10 text-black">Book Your Strategy Call</span>
+                <div class="absolute inset-0 bg-indigo-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+            </button>
+            <a class="font-label text-zinc-500 hover:text-white transition-colors flex items-center gap-2" href="#features">
+                Learn more <span class="material-symbols-outlined text-xs">arrow_downward</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Feature Grid -->
+<section class="py-32 px-8 max-w-7xl mx-auto relative" id="features">
+
+    <!-- Background for features section -->
+    <div class="grid-bg" style="opacity: 0.5;">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <pattern id="grid-dots-2" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                <circle cx="40" cy="40" r="0.4" fill="rgba(99, 102, 241, 0.1)"/>
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#grid-dots-2)"/>
+        </svg>
+    </div>
+
+    <div class="mb-24 flex flex-col md:flex-row justify-between items-end gap-8 relative z-10">
+        <h2 class="text-4xl md:text-6xl font-black font-headline tracking-tighter text-white max-w-xl">The Operating System for Real Estate Agents.</h2>
+        <p class="font-label text-zinc-500 max-w-xs text-right">
+            01 // AI INFRASTRUCTURE FOR AGENTS<br>
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10" id="cardGrid">
+        <!-- Card 1 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">01</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="auto_awesome">auto_awesome</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">List Properties in Minutes</h3>
+            <p class="text-zinc-400 leading-relaxed">AI writes descriptions, uploads to portals, and publishes across platforms — instantly.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">02</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="psychology">psychology</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">Never Miss a Lead Again</h3>
+            <p class="text-zinc-400 leading-relaxed">AI follows up instantly, qualifies buyers, and books appraisals while you focus on closing.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">03</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="architecture">architecture</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">Turn Enquiries Into Appointments</h3>
+            <p class="text-zinc-400 leading-relaxed">We design your pipeline so every lead moves toward a booked inspection or listing.</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">04</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="hub">hub</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">Everything Connected</h3>
+            <p class="text-zinc-400 leading-relaxed">CRM, REA, Domain, email, SMS — all synced into one automated system.</p>
+        </div>
+        <!-- Card 5 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">05</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="domain">domain</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">Built for Real Estate Agents</h3>
+            <p class="text-zinc-400 leading-relaxed">No generic tools. Everything is designed to win listings and close deals.</p>
+        </div>
+        <!-- Card 6 -->
+        <div class="glass-card rounded-xl p-8 group hover:border-indigo-500/30 transition-all duration-500">
+            <div class="flex justify-between items-start mb-12">
+                <span class="font-label text-xs text-indigo-500/50">06</span>
+                <span class="material-symbols-outlined text-indigo-500" data-icon="encrypted">encrypted</span>
+            </div>
+            <h3 class="text-2xl font-black font-headline tracking-tight text-white mb-4">Your Data Stays Yours</h3>
+            <p class="text-zinc-400 leading-relaxed">Privacy-first architecture. Compliant, secure, and built on infrastructure you control.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Transition Section -->
+<section class="py-48 px-8 relative overflow-hidden">
+    <!-- Background animation -->
+    <div class="grid-bg" style="opacity: 0.4;">
+        <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 300 Q360 200 720 300 T1440 300" class="circuit-line" fill="none" stroke="rgba(99, 102, 241, 0.08)" stroke-width="1"/>
+            <path d="M0 350 Q360 250 720 350 T1440 350" class="circuit-line circuit-line-3" fill="none" stroke="rgba(99, 102, 241, 0.06)" stroke-width="1"/>
+        </svg>
+    </div>
+
+    <div class="absolute inset-0 bg-indigo-600/5 blur-[120px] rounded-full translate-y-1/2"></div>
+    <div class="gradient-orb" style="width: 600px; height: 600px; background: rgba(99, 102, 241, 0.04); top: 20%; left: 30%;"></div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2 class="text-5xl md:text-7xl font-black font-headline tracking-tighter text-white mb-8">Stop Losing Listings to Faster Agents.</h2>
+        <p class="text-xl text-zinc-400 mb-12 font-body max-w-xl mx-auto leading-relaxed">We'll show you exactly what to automate in your business</p>
+        <button class="px-16 py-6 bg-white text-black font-label font-black tracking-[0.2em] uppercase text-xs rounded-full hover:bg-zinc-200 transition-all duration-300 active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.2)]">Book Your Strategy Call</button>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="w-full relative overflow-hidden py-24 bg-zinc-950">
+    <div class="text-[15rem] font-black text-white/5 absolute -bottom-20 -left-10 select-none font-headline">P</div>
+    <div class="flex flex-col items-center justify-center w-full px-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl items-end gap-12">
+            <div>
+                <span class="text-3xl font-black font-headline text-white tracking-tighter uppercase">PowerAI</span>
+                <p class="text-zinc-500 font-label mt-4 max-w-xs text-sm">Automating the real estate market with bespoke intelligence systems.</p>
+            </div>
+            <div class="flex flex-col items-start md:items-end gap-8">
+                <div class="flex gap-12 font-label text-xs tracking-widest uppercase font-bold text-zinc-500">
+                    <a class="hover:text-white transition-all" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-all" href="#">Terms of Service</a>
+                    <a class="hover:text-white transition-all" href="mailto:hello@powerai.studio">Contact Us</a>
+                </div>
+                <p class="text-zinc-600 font-label text-[10px] tracking-[0.3em] uppercase">&copy; 2026 PowerAI Studio. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Floating Particles Container -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" id="particles"></div>
+
+<script>
+    // Cursor glow follow
+    const cursorGlow = document.getElementById('cursorGlow');
+    let mouseX = -500, mouseY = -500;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorGlow.style.left = mouseX + 'px';
+        cursorGlow.style.top = mouseY + 'px';
+        cursorGlow.style.opacity = '1';
+    });
+
+    document.addEventListener('mouseleave', () => {
+        cursorGlow.style.opacity = '0';
+    });
+
+    // Card hover light effect
+    const cards = document.querySelectorAll('.glass-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', x + 'px');
+            card.style.setProperty('--mouse-y', y + 'px');
+        });
+    });
+
+    // Floating particles
+    const particlesContainer = document.getElementById('particles');
+
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        const size = Math.random() * 3 + 1;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * 5;
+        const opacity = Math.random() * 0.3 + 0.05;
+
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = left + '%';
+        particle.style.background = `rgba(99, 102, 241, ${opacity})`;
+        particle.style.animationDuration = duration + 's';
+        particle.style.animationDelay = delay + 's';
+        particle.style.boxShadow = `0 0 ${size * 2}px rgba(99, 102, 241, ${opacity * 0.5})`;
+
+        particlesContainer.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+            createParticle();
+        }, (duration + delay) * 1000);
+    }
+
+    // Create initial particles
+    for (let i = 0; i < 30; i++) {
+        createParticle();
+    }
+</script>
+
+</body>
+</html>
