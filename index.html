@@ -151,72 +151,39 @@
         to { transform: translate(-50%, -50%) rotate(0deg); }
     }
 
-    /* Neon glow behind the rings */
-    .neon-glow-orb {
+    /* ===== ROTATING TEXT ===== */
+    .rotating-text {
+        display: inline-block;
+        position: relative;
+    }
+
+    .rotating-word {
+        display: inline-block;
+        opacity: 0;
         position: absolute;
-        border-radius: 50%;
-        pointer-events: none;
-        filter: blur(80px);
-        animation: glow-pulse 4s ease-in-out infinite alternate;
+        left: 0;
+        right: 0;
+        transition: none;
     }
 
-    @keyframes glow-pulse {
-        0% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-        100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.15); }
+    .rotating-word.active {
+        opacity: 1;
+        animation: text-fade-in 0.6s ease-out;
     }
 
-    /* Floating neon lines */
-    .neon-line {
-        position: absolute;
-        height: 2px;
-        pointer-events: none;
-        animation: neon-line-move linear infinite;
+    .rotating-word.exiting {
+        opacity: 0;
+        animation: text-fade-out 0.4s ease-in;
     }
 
-    .neon-line::after {
-        content: '';
-        position: absolute;
-        inset: -4px 0;
-        background: inherit;
-        filter: blur(8px);
+    @keyframes text-fade-in {
+        0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+        100% { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
 
-    @keyframes neon-line-move {
-        0% { transform: translateX(-100%); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translateX(100vw); opacity: 0; }
-    }
-
-    /* Neon dots grid */
-    .neon-dot {
-        position: absolute;
-        width: 3px;
-        height: 3px;
-        border-radius: 50%;
-        background: rgba(99, 102, 241, 0.5);
-        pointer-events: none;
-        animation: dot-flicker 3s ease-in-out infinite;
-    }
-
-    @keyframes dot-flicker {
-        0%, 100% { opacity: 0.1; box-shadow: 0 0 4px rgba(99, 102, 241, 0.3); }
-        50% { opacity: 0.8; box-shadow: 0 0 12px rgba(99, 102, 241, 0.8), 0 0 24px rgba(99, 102, 241, 0.4); }
-    }
-
-    /* Vertical neon streaks */
-    .neon-streak {
-        position: absolute;
-        width: 1px;
-        pointer-events: none;
-        animation: streak-fall linear infinite;
-    }
-
-    @keyframes streak-fall {
-        0% { transform: translateY(-100%); opacity: 0; }
-        15% { opacity: 1; }
-        85% { opacity: 1; }
-        100% { transform: translateY(100vh); opacity: 0; }
+    @keyframes text-fade-out {
+        0% { opacity: 1; transform: translateY(0); filter: blur(0); }
+        100% { opacity: 0; transform: translateY(-20px); filter: blur(8px); }
     }
 
     /* ===== MOUSE FOLLOW LIGHT ===== */
@@ -375,20 +342,6 @@
     <div class="neon-ring neon-ring-2"></div>
     <div class="neon-ring neon-ring-3"></div>
 
-    <!-- Neon glow orbs -->
-    <div class="neon-glow-orb" style="width: 300px; height: 300px; background: rgba(99, 102, 241, 0.15); top: 50%; left: 50%;"></div>
-    <div class="neon-glow-orb" style="width: 500px; height: 500px; background: rgba(139, 92, 246, 0.06); top: 50%; left: 50%; animation-delay: -2s;"></div>
-
-    <!-- Horizontal neon lines -->
-    <div class="neon-line" style="top: 20%; width: 200px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.8), transparent); animation-duration: 5s;"></div>
-    <div class="neon-line" style="top: 75%; width: 150px; background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent); animation-duration: 7s; animation-delay: 2s;"></div>
-    <div class="neon-line" style="top: 45%; width: 180px; background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent); animation-duration: 6s; animation-delay: 3.5s;"></div>
-
-    <!-- Vertical neon streaks -->
-    <div class="neon-streak" style="left: 15%; height: 80px; background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.6), transparent); animation-duration: 4s;"></div>
-    <div class="neon-streak" style="left: 80%; height: 60px; background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.5), transparent); animation-duration: 5s; animation-delay: 1.5s;"></div>
-    <div class="neon-streak" style="left: 55%; height: 100px; background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.4), transparent); animation-duration: 6s; animation-delay: 3s;"></div>
-
     <!-- Subtle P background -->
     <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
         <span class="text-[400px] md:text-[800px] font-bold font-headline">P</span>
@@ -397,7 +350,11 @@
     <div class="relative z-10 text-center max-w-6xl">
         <h1 class="text-6xl md:text-8xl lg:text-[9rem] font-bold font-headline tracking-tighter leading-[0.95] text-white">
             Your assistant for<br/>
-            <span class="text-glow" style="color: rgb(99, 102, 241);">booking appraisal</span>
+            <span class="rotating-text text-glow" style="color: rgb(99, 102, 241);" id="rotatingText">
+                <span class="rotating-word active" data-index="0">scheduling inspections</span>
+                <span class="rotating-word" data-index="1">drafting replies</span>
+                <span class="rotating-word" data-index="2">booking appraisals</span>
+            </span>
         </h1>
         <p class="mt-10 md:mt-14 text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
             AI assistant built for real estate agents — capture every lead, follow up instantly, and convert more listings without increasing headcount.
@@ -698,6 +655,47 @@ if (cardGrid) {
         });
     });
 }
+
+// ===== ROTATING HERO TEXT =====
+const words = document.querySelectorAll('.rotating-word');
+let currentIndex = 0;
+
+// Measure the widest word and set container width
+const rotatingContainer = document.getElementById('rotatingText');
+let maxWidth = 0;
+words.forEach(word => {
+    word.style.position = 'relative';
+    word.style.opacity = '1';
+    const w = word.offsetWidth;
+    if (w > maxWidth) maxWidth = w;
+    word.style.position = 'absolute';
+    word.style.opacity = '0';
+});
+words[0].style.opacity = '1';
+words[0].style.position = 'relative';
+rotatingContainer.style.display = 'inline-block';
+rotatingContainer.style.minWidth = maxWidth + 'px';
+
+setInterval(() => {
+    const current = words[currentIndex];
+    const nextIndex = (currentIndex + 1) % words.length;
+    const next = words[nextIndex];
+
+    // Exit current
+    current.classList.remove('active');
+    current.classList.add('exiting');
+
+    setTimeout(() => {
+        current.classList.remove('exiting');
+        current.style.position = 'absolute';
+
+        // Enter next
+        next.style.position = 'relative';
+        next.classList.add('active');
+
+        currentIndex = nextIndex;
+    }, 400);
+}, 3000);
 </script>
 
 </body>
