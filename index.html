@@ -262,7 +262,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-10 overflow-hidden" style="background: radial-gradient(circle at 50% 50%, rgba(180, 180, 190, 0.03) 0%, transparent 70%), #050508;">
+<section class="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-20 px-6 md:px-10 overflow-hidden" style="background: transparent;">
 
     <div class="relative z-10 text-center max-w-6xl">
         <h1 class="text-4xl md:text-6xl lg:text-[5.5rem] font-bold font-headline tracking-tighter leading-[1.1] text-white whitespace-nowrap">
@@ -498,11 +498,11 @@ function drawVeinPath(pts, baseOpacity, lineWidth, lightPos, lightRadius) {
 
         const totalGlow = Math.min(1, lightInfluence * 0.7 + mouseInfluence * 0.5);
 
-        // Base vein: very dim charcoal
-        const dimOpacity = baseOpacity * 0.12;
+        // Base vein: visible charcoal
+        const dimOpacity = baseOpacity * 0.25;
         // Lit vein: brighter where light passes
-        const litOpacity = dimOpacity + totalGlow * baseOpacity * 0.4;
-        const brightness = 80 + totalGlow * 100;
+        const litOpacity = dimOpacity + totalGlow * baseOpacity * 0.5;
+        const brightness = 100 + totalGlow * 120;
 
         ctx.beginPath();
         ctx.moveTo(p0.x, p0.y);
@@ -516,8 +516,8 @@ function drawVeinPath(pts, baseOpacity, lineWidth, lightPos, lightRadius) {
             ctx.beginPath();
             ctx.moveTo(p0.x, p0.y);
             ctx.lineTo(p1.x, p1.y);
-            ctx.strokeStyle = `rgba(${brightness}, ${brightness}, ${brightness + 10}, ${totalGlow * 0.06})`;
-            ctx.lineWidth = lineWidth + totalGlow * 8;
+            ctx.strokeStyle = `rgba(${brightness}, ${brightness}, ${brightness + 10}, ${totalGlow * 0.1})`;
+            ctx.lineWidth = lineWidth + totalGlow * 10;
             ctx.stroke();
         }
     }
